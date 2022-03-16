@@ -28,6 +28,10 @@ for i in range(-1, 10):
         midiNoteNumber+=1
 
 ################################################## FUNCTIONS ################################################
+# CREATE MIDI NOTE
+def addNote(inMidiFile, inMidiNote, inVelocity, start_time, note_duration):
+    inMidiFile.addNote(0, 0, inMidiNote, start_time, note_duration, inVelocity)
+
 def randomVelocity(inTrigger):
     if int(inTrigger) == 0:
         return 0
@@ -35,4 +39,10 @@ def randomVelocity(inTrigger):
         return (random.randint(60, 127))
 
 def getMidiFromNote(inNote):
-	return notes[inNote]
+	return int(notes[inNote])
+
+def split(word):
+    return [char for char in word]
+
+def getDurationFromNotation(inNotation):
+	return durations[inNotation]/16
