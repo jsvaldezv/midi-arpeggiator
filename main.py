@@ -12,6 +12,7 @@ key = input("Key: ")
 rate = input("Rate: ")
 distance = int(input("Distance (en semitonos): "))
 numNotas = int(input("Número de notas: "))
+reversa = input('Type y or n to reverse the arpeggiator: ')
 notas = []
 for i in range(numNotas):
 	nota = input("Nota "+ str(i+1) + " (en notación musical): ")
@@ -25,12 +26,20 @@ tiempo = 0
 duration = utilities.getDurationFromNotation(rate)
 intervalTimes = 4/duration
 
-for i in range(numNotas):
-	nota = notas[i]
-	for j in range(int(intervalTimes)):
-		utilities.addNote(midiFile, nota, 127, tiempo, duration)
-		tiempo += duration
-		nota += distance
+if reversa == 'n':
+	for i in range(numNotas):
+		nota = notas[i]
+		for j in range(int(intervalTimes)):
+			utilities.addNote(midiFile, nota, 127, tiempo, duration)
+			tiempo += duration
+			nota += distance
+elif reversa == 'y': 
+	for i in range(numNotas):
+		nota = notas[i]
+		for j in range(int(intervalTimes)):
+			utilities.addNote(midiFile, nota, 127, tiempo, duration)
+			tiempo += duration
+			nota -= distance 
 
 ################################################# GENERATE MIDI ###############################################
 with open("Arp.mid", "wb") as myOutputMIDIClip:
