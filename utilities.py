@@ -19,7 +19,6 @@ keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 notes = {}
 midiNoteNumber = 0
 
-#majorScale = [0, 2, 4, 5, 7, 9, 11, 12]
 majorScale = [2, 2, 1, 2, 2, 2, 1]
 minorScale = [2, 1, 2, 2, 1, 2, 2]
 
@@ -32,7 +31,6 @@ for i in range(-1, 10):
         midiNoteNumber+=1
 
 ################################################## FUNCTIONS ################################################
-# CREATE MIDI NOTE
 def addNote(inMidiFile, inMidiNote, inVelocity, start_time, note_duration):
     inMidiFile.addNote(0, 0, inMidiNote, start_time, note_duration, inVelocity)
 
@@ -45,12 +43,17 @@ def randomVelocity(inTrigger):
 def getMidiFromNote(inNote):
 	return int(notes[inNote])
 
-
 def split(word):
     return [char for char in word]
 
 def getDurationFromNotation(inNotation):
 	return durations[inNotation]/16
+
+def getDistanciaSign(inMode):
+	if inMode == "up":
+		return 1
+	else:
+		return -1
 
 def createScaleArray(inMode, inFundamentalMidi):
 	if inMode == "mayor":
