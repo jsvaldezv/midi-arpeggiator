@@ -13,7 +13,7 @@ rate = input("Rate: ")
 distance = int(input("Distance (en semitonos): ")) 
 numNotas = int(input("Número de notas: "))
 tonalidad = input("Indica mayor o menor: ")
-reversa = input('Type up or down to guide the arpeggiator: ')
+reversa = input('Elige up o down para el arpeggiador: ')
 notas = []
 for i in range(numNotas):
 	nota = input("Nota "+ str(i+1) + " (en notación musical): ")
@@ -23,33 +23,15 @@ for i in range(numNotas):
 midiFile = MIDIFile(1)
 midiFile.addTempo(0, 0, bpm)
 
+# CALCULATE NOTES NUMBER PER COMPAS
 tiempo = 0
 duration = utilities.getDurationFromNotation(rate)
 intervalTimes = 4/duration
 
+# GET FULL MIDI SCALE
 fundamentalMidi = utilities.getMidiFromNote(key + "-1")
-scale = []
-cont = 0
-currentNote = fundamentalMidi
+scale = utilities.createScaleArray(tonalidad, fundamentalMidi)
 
-if tonalidad == "mayor": #Mayor
-	for i in range(fundamentalMidi, 127): 
-		if currentNote <= 127:
-			currentNote += utilities.majorScale[cont]
-			scale.append(currentNote)
-			cont += 1
-			if cont >= len(utilities.majorScale):
-				cont = 0
-
-elif tonalidad == "menor": #Menor
-	for i in range(fundamentalMidi, 127): 
-		if currentNote <= 127:
-			currentNote += utilities.minorScale[cont]
-			scale.append(currentNote)
-			cont += 1
-			if cont >= len(utilities.minorScale):
-				cont = 0
-	
 if reversa == 'up': #ascendente
 	for i in range(numNotas):
 		nota = notas[i]
@@ -69,7 +51,6 @@ elif reversa == 'down': #descendente
 			utilities.addNote(midiFile, scale[index], 127, tiempo, duration)
 			tiempo += duration
 			index -= distance
-
 
 ################################################# GENERATE MIDI ###############################################
 with open("Arp.mid", "wb") as myOutputMIDIClip:

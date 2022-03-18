@@ -51,3 +51,22 @@ def split(word):
 
 def getDurationFromNotation(inNotation):
 	return durations[inNotation]/16
+
+def createScaleArray(inMode, inFundamentalMidi):
+	if inMode == "mayor":
+		scaleLocal = majorScale
+	else:
+		scaleLocal = minorScale
+	
+	cont = 0
+	currentNote = inFundamentalMidi
+	scale = []
+	for i in range(inFundamentalMidi, 127): 
+		if currentNote <= 127:
+			currentNote += scaleLocal[cont]
+			scale.append(currentNote)
+			cont += 1
+			if cont >= len(scaleLocal):
+				cont = 0
+
+	return scale
