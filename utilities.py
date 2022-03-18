@@ -19,6 +19,10 @@ keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 notes = {}
 midiNoteNumber = 0
 
+#majorScale = [0, 2, 4, 5, 7, 9, 11, 12]
+majorScale = [2, 2, 1, 2, 2, 2, 1]
+minorScale = [2, 1, 2, 2, 1, 2, 2]
+
 # DICTIONARY WITH MIDI NOTES
 for i in range(-1, 10):
     for note in keys:
@@ -40,6 +44,7 @@ def randomVelocity(inTrigger):
 
 def getMidiFromNote(inNote):
 	return int(notes[inNote])
+
 
 def split(word):
     return [char for char in word]
