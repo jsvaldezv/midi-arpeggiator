@@ -4,6 +4,8 @@ import utilities
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+from visual_midi import Plotter
+from pretty_midi import PrettyMIDI
 
 print("-------------------")
 print("Arpeggiator")
@@ -12,7 +14,7 @@ class Main(QMainWindow, QWidget):
 
 	def __init__(self):
 		super().__init__()
-		self.resize(1000, 450)
+		self.resize(500, 450)
 
 		# VARIABLES GLOBALES #
 		self.notas = []
@@ -179,12 +181,17 @@ class Main(QMainWindow, QWidget):
 				tiempo += duration
 				index += distance
 
-		with open("Arp.mid", "wb") as myOutputMIDIClip:
+		with open("MidiArpeggiator/Midis/Arp.mid", "wb") as myOutputMIDIClip:
 			midiFile.writeFile(myOutputMIDIClip)
 
 		print("-------------------")
 		print("Archivo MIDI generado")
 		print("-------------------")
+
+		print("Mostrando")
+		pm = PrettyMIDI("MidiArpeggiator/Midis/Arp.mid")
+		plotter = Plotter()
+		plotter.show(pm, "/tmp/example-01.html")
 
 app = QApplication(sys.argv)
 demo = Main()
