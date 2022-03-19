@@ -14,8 +14,10 @@ durations = {	"whole note"     			:64,
 				"sixteenth note" 			:4   
             }
 
-## KEYS 
+## KEYS
 keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+modos = ["mayor", "menor"]
+orders = ["up", "down"]
 notes = {}
 midiNoteNumber = 0
 
