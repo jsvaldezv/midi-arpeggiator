@@ -14,7 +14,7 @@ class Main(QMainWindow, QWidget):
 
 	def __init__(self):
 		super().__init__()
-		self.resize(500, 450)
+		self.resize(500, 470)
 
 		# VARIABLES GLOBALES #
 		self.notas = []
@@ -58,7 +58,7 @@ class Main(QMainWindow, QWidget):
 
 		# ORDER #
 		self.orderLabel = QLabel(self)
-		self.orderLabel.setText("Order")
+		self.orderLabel.setText("Style")
 		self.orderLabel.setGeometry(15, 180, 110, 30)
 		
 		self.orderCombo = QComboBox(self)
@@ -88,39 +88,49 @@ class Main(QMainWindow, QWidget):
 		for duration in utilities.durations:
 			self.rateCombo.addItem(duration)
 
+		# STEPS #
+		self.stepsLabel = QLabel(self)
+		self.stepsLabel.setText("Steps")
+		self.stepsLabel.setGeometry(15, 345, 110, 30)
+		
+		self.stepsCombo = QSpinBox(self)
+		self.stepsCombo.setGeometry(15, 370, 110, 30)
+		self.stepsCombo.setValue(2)
+		self.stepsCombo.setRange(1, 20)
+
 		# NUM DE NOTAS #
 		self.numNotasLabel = QLabel(self)
 		self.numNotasLabel.setText("Num de notas")
-		self.numNotasLabel.setGeometry(15, 345, 110, 30)
+		self.numNotasLabel.setGeometry(15, 405, 110, 30)
 		
 		self.numNotasCombo = QSpinBox(self)
-		self.numNotasCombo.setGeometry(15, 370, 110, 30)
+		self.numNotasCombo.setGeometry(15, 430, 110, 30)
 		self.numNotasCombo.setValue(2)
 		self.numNotasCombo.setRange(1, 20)
 
 		# READY #
 		self.btnReady = QPushButton('Ready', self)
-		self.btnReady.setGeometry(10, 405, 100, 45)
+		self.btnReady.setGeometry(140, 10, 100, 45)
 		self.btnReady.clicked.connect(lambda: self.inputNotes())
 
 	def inputNotes(self):
 		del self.notas[:]
 		del self.octavas[:]
-		yInitChecBox = 65
+		yInitChecBox = 130
 
 		self.notasLabel = QLabel(self)
 		self.notasLabel.setText("Notas fundamentales")
-		self.notasLabel.setGeometry(150, 10, 140, 30)
+		self.notasLabel.setGeometry(150, 70, 140, 30)
 		self.notasLabel.show()
 
 		self.notaLabel = QLabel(self)
 		self.notaLabel.setText("Nota")
-		self.notaLabel.setGeometry(150, 35, 50, 30)
+		self.notaLabel.setGeometry(150, 105, 50, 30)
 		self.notaLabel.show()
 
 		self.octavaLabel = QLabel(self)
 		self.octavaLabel.setText("Octava")
-		self.octavaLabel.setGeometry(225, 35, 100, 30)
+		self.octavaLabel.setGeometry(225, 105, 100, 30)
 		self.octavaLabel.show()
 
 		for note in range(self.numNotasCombo.value()):
@@ -176,7 +186,8 @@ class Main(QMainWindow, QWidget):
 			nota = self.notasEnMidi[i]
 			inicio = scale.index(nota)
 			index = inicio
-			for j in range(int(intervalTimes)):
+			#for j in range(int(intervalTimes)):
+			for j in range(int(self.stepsCombo.value())+1):
 				utilities.addNote(midiFile, scale[index], utilities.randomVelocity(1), tiempo, duration)
 				tiempo += duration
 				index += distance
