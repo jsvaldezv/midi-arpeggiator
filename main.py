@@ -14,7 +14,7 @@ class Main(QMainWindow, QWidget):
 
 	def __init__(self):
 		super().__init__()
-		self.resize(500, 470)
+		self.resize(500, 530)
 
 		# VARIABLES GLOBALES #
 		self.notas = []
@@ -108,6 +108,16 @@ class Main(QMainWindow, QWidget):
 		self.numNotasCombo.setValue(2)
 		self.numNotasCombo.setRange(1, 20)
 
+		# NUM DE COMPASES #
+		self.numCompasesLabel = QLabel(self)
+		self.numCompasesLabel.setText("Num de compases")
+		self.numCompasesLabel.setGeometry(15, 465, 110, 30)
+		
+		self.numCompasesCombo = QSpinBox(self)
+		self.numCompasesCombo.setGeometry(15, 490, 120, 30)
+		self.numCompasesCombo.setValue(2)
+		self.numCompasesCombo.setRange(1, 20)
+
 		# READY #
 		self.btnReady = QPushButton('Ready', self)
 		self.btnReady.setGeometry(140, 10, 100, 45)
@@ -194,11 +204,22 @@ class Main(QMainWindow, QWidget):
 			nota = self.notasEnMidi[i]
 			inicio = scale.index(nota)
 			index = inicio
-			#for j in range(int(intervalTimes)):
-			for j in range(int(self.stepsCombo.value())+1):
+
+			contNota = 0
+			for j in range(int(intervalTimes) * int(self.numCompasesCombo.value())):
 				utilities.addNote(midiFile, scale[index], utilities.randomVelocity(1), tiempo, duration)
 				tiempo += duration
 				index += distance
+				contNota += 1
+
+				if contNota >= (self.stepsCombo.value()+1):
+					index = scale.index(nota)
+					contNota = 0
+
+			#for j in range(int(self.stepsCombo.value())+1):
+				#utilities.addNote(midiFile, scale[index], utilities.randomVelocity(1), tiempo, duration)
+				#tiempo += duration
+				#index += distance
 
 		with open("MidiArpeggiator/Midis/Arp.mid", "wb") as myOutputMIDIClip:
 			midiFile.writeFile(myOutputMIDIClip)
@@ -207,7 +228,6 @@ class Main(QMainWindow, QWidget):
 		print("Archivo MIDI generado")
 		print("-------------------")
 
-		print("Mostrando")
 		pm = PrettyMIDI("MidiArpeggiator/Midis/Arp.mid")
 		plotter = Plotter()
 		plotter.show(pm, "/tmp/example-01.html")
