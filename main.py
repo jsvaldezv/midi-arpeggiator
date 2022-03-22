@@ -113,9 +113,17 @@ class Main(QMainWindow, QWidget):
 		self.btnReady.setGeometry(140, 10, 100, 45)
 		self.btnReady.clicked.connect(lambda: self.inputNotes())
 
+	def clear(self):
+		for object in self.notas:
+			object.hide()
+		for object in self.octavas:
+			object.hide()
+
+		self.notas.clear()
+		self.octavas.clear()
+
 	def inputNotes(self):
-		del self.notas[:]
-		del self.octavas[:]
+		self.clear()
 		yInitChecBox = 130
 
 		self.notasLabel = QLabel(self)
