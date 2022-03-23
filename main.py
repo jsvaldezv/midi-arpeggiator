@@ -123,6 +123,15 @@ class Main(QMainWindow, QWidget):
 		self.btnReady.setGeometry(140, 10, 100, 45)
 		self.btnReady.clicked.connect(lambda: self.inputNotes())
 
+		self.userNotification = QLabel(self)
+		self.userNotification.setText("Hay notas que no forman parte")
+		self.userNotification.setGeometry(310, 50, 200, 30)
+		self.userNotification.hide()
+		self.userNotificationTwo = QLabel(self)
+		self.userNotificationTwo.setText("de la escala")
+		self.userNotificationTwo.setGeometry(310, 70, 200, 30)
+		self.userNotificationTwo.hide()
+
 	def clear(self):
 		for object in self.notas:
 			object.hide()
@@ -133,6 +142,9 @@ class Main(QMainWindow, QWidget):
 		self.octavas.clear()
 
 	def inputNotes(self):
+		self.userNotification.hide()
+		self.userNotificationTwo.hide()
+
 		self.clear()
 		yInitChecBox = 130
 
@@ -199,10 +211,22 @@ class Main(QMainWindow, QWidget):
 		# GET SUM FOR UP OR DOWN
 		distance *= utilities.getDistanciaSign(self.orderCombo.currentText())
 
+		midiFileIsDone = False
+		inicio = 0
 		# GENERATE MIDI DATA
 		for i in range(int(self.numNotasCombo.value())):
 			nota = self.notasEnMidi[i]
-			inicio = scale.index(nota)
+
+			try:
+				inicio = scale.index(nota)
+				midiFileIsDone = True
+			except:
+				print("Hay notas que no forman parte de la escala")
+				self.userNotification.show()
+				self.userNotificationTwo.show()
+				midiFileIsDone = False
+				break
+
 			index = inicio
 
 			contNota = 0
@@ -221,16 +245,17 @@ class Main(QMainWindow, QWidget):
 				#tiempo += duration
 				#index += distance
 
-		with open("MidiArpeggiator/Midis/Arp.mid", "wb") as myOutputMIDIClip:
-			midiFile.writeFile(myOutputMIDIClip)
+		if midiFileIsDone:
+			with open("MidiArpeggiator/Midis/Arp.mid", "wb") as myOutputMIDIClip:
+				midiFile.writeFile(myOutputMIDIClip)
 
-		print("-------------------")
-		print("Archivo MIDI generado")
-		print("-------------------")
+			print("-------------------")
+			print("Archivo MIDI generado")
+			print("-------------------")
 
-		pm = PrettyMIDI("MidiArpeggiator/Midis/Arp.mid")
-		plotter = Plotter()
-		plotter.show(pm, "/tmp/example-01.html")
+			pm = PrettyMIDI("MidiArpeggiator/Midis/Arp.mid")
+			plotter = Plotter()
+			plotter.show(pm, "/tmp/example-01.html")
 
 app = QApplication(sys.argv)
 demo = Main()
