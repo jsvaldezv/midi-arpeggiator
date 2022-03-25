@@ -203,14 +203,18 @@ class Main(QMainWindow, QWidget):
 		# CALCULATE NOTES NUMBER PER COMPAS
 		tiempo = 0
 		duration = utilities.getDurationFromNotation(self.rateCombo.currentText())
+		# NUMERO DE NOTAS POR COMPAS
 		intervalTimes = 4/duration
 
 		# GET FULL MIDI SCALE
+		# GET LOWEST FUNDAMENTAL MIDI NOTE (C-1)
 		fundamentalMidi = utilities.getMidiFromNote(self.keyCombo.currentText() + "-1")
+		# CREAR ESCALA MAYOR O MENOR COMPLETA DE 0 A 127
 		scale = utilities.createScaleArray(self.modoCombo.currentText(), fundamentalMidi)
 		# GET SUM FOR UP OR DOWN
 		distance *= utilities.getDistanciaSign(self.orderCombo.currentText())
 
+		# FLAG FOR MIDI FILE
 		midiFileIsDone = False
 		inicio = 0
 		# GENERATE MIDI DATA
