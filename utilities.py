@@ -1,7 +1,5 @@
-#################################################### IMPORTS ################################################
 import random
 
-################################################## GENERAL DATA ################################################
 ## Note durations
 durations = {
     "whole note": 64,
@@ -17,7 +15,7 @@ durations = {
 
 ## KEYS
 keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-modos = ["mayor", "menor"]
+modos = ["major", "minor"]
 orders = ["up", "down"]
 notes = {}
 midiNoteNumber = 0
@@ -25,7 +23,7 @@ midiNoteNumber = 0
 majorScale = [2, 2, 1, 2, 2, 2, 1]
 minorScale = [2, 1, 2, 2, 1, 2, 2]
 
-# DICTIONARY WITH MIDI NOTES
+# MIDI notes
 for i in range(-1, 10):
     for note in keys:
         if midiNoteNumber <= 127:
@@ -34,7 +32,6 @@ for i in range(-1, 10):
         midiNoteNumber += 1
 
 
-################################################## FUNCTIONS ################################################
 def addNote(inMidiFile, inMidiNote, inVelocity, start_time, note_duration):
     inMidiFile.addNote(0, 0, inMidiNote, start_time, note_duration, inVelocity)
 
@@ -66,7 +63,7 @@ def getDistanciaSign(inMode):
 
 
 def createScaleArray(inMode, inFundamentalMidi):
-    if inMode == "mayor":
+    if inMode == "major":
         scaleLocal = majorScale
     else:
         scaleLocal = minorScale

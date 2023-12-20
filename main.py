@@ -1,11 +1,8 @@
-#################################################### IMPORTS ##################################################
 from midiutil import MIDIFile
 import utilities
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from visual_midi import Plotter
-from pretty_midi import PrettyMIDI
 
 print("-------------------")
 print("Arpeggiator")
@@ -16,7 +13,6 @@ class Main(QMainWindow, QWidget):
         super().__init__()
         self.resize(500, 530)
 
-        # VARIABLES GLOBALES #
         self.notas = []
         self.octavas = []
         self.notasEnMidi = []
@@ -24,7 +20,7 @@ class Main(QMainWindow, QWidget):
         self.createComponents()
 
     def createComponents(self):
-        # BPM #
+        # BPM
         self.bpmLabel = QLabel(self)
         self.bpmLabel.setText("BPM")
         self.bpmLabel.setGeometry(15, 10, 110, 30)
@@ -34,7 +30,7 @@ class Main(QMainWindow, QWidget):
         self.bpm.setValue(85)
         self.bpm.setRange(60, 210)
 
-        # KEY #
+        # Key
         self.keyLabel = QLabel(self)
         self.keyLabel.setText("Key")
         self.keyLabel.setGeometry(15, 70, 110, 30)
@@ -45,9 +41,9 @@ class Main(QMainWindow, QWidget):
         for key in utilities.keys:
             self.keyCombo.addItem(key)
 
-        # MODO #
+        # Mode
         self.modoLabel = QLabel(self)
-        self.modoLabel.setText("Modo")
+        self.modoLabel.setText("Mode")
         self.modoLabel.setGeometry(15, 125, 110, 30)
 
         self.modoCombo = QComboBox(self)
@@ -56,7 +52,7 @@ class Main(QMainWindow, QWidget):
         for modo in utilities.modos:
             self.modoCombo.addItem(modo)
 
-        # ORDER #
+        # Order
         self.orderLabel = QLabel(self)
         self.orderLabel.setText("Style")
         self.orderLabel.setGeometry(15, 180, 110, 30)
@@ -67,9 +63,9 @@ class Main(QMainWindow, QWidget):
         for order in utilities.orders:
             self.orderCombo.addItem(order)
 
-        # DISTANCE #
+        # Distance
         self.distanceLabel = QLabel(self)
-        self.distanceLabel.setText("Distancia")
+        self.distanceLabel.setText("Distance")
         self.distanceLabel.setGeometry(15, 235, 110, 30)
 
         self.distanceCombo = QSpinBox(self)
@@ -77,7 +73,7 @@ class Main(QMainWindow, QWidget):
         self.distanceCombo.setValue(2)
         self.distanceCombo.setRange(-12, 12)
 
-        # RATE #
+        # Rate
         self.rateLabel = QLabel(self)
         self.rateLabel.setText("Rate")
         self.rateLabel.setGeometry(15, 290, 110, 30)
@@ -88,7 +84,7 @@ class Main(QMainWindow, QWidget):
         for duration in utilities.durations:
             self.rateCombo.addItem(duration)
 
-        # STEPS #
+        # Steps
         self.stepsLabel = QLabel(self)
         self.stepsLabel.setText("Steps")
         self.stepsLabel.setGeometry(15, 345, 110, 30)
@@ -98,9 +94,9 @@ class Main(QMainWindow, QWidget):
         self.stepsCombo.setValue(2)
         self.stepsCombo.setRange(1, 20)
 
-        # NUM DE NOTAS #
+        # Notes number
         self.numNotasLabel = QLabel(self)
-        self.numNotasLabel.setText("Num de notas")
+        self.numNotasLabel.setText("Notes number")
         self.numNotasLabel.setGeometry(15, 405, 110, 30)
 
         self.numNotasCombo = QSpinBox(self)
@@ -108,9 +104,9 @@ class Main(QMainWindow, QWidget):
         self.numNotasCombo.setValue(2)
         self.numNotasCombo.setRange(1, 20)
 
-        # NUM DE COMPASES #
+        # Bar number
         self.numCompasesLabel = QLabel(self)
-        self.numCompasesLabel.setText("Num de compases")
+        self.numCompasesLabel.setText("Bar number")
         self.numCompasesLabel.setGeometry(15, 465, 110, 30)
 
         self.numCompasesCombo = QSpinBox(self)
@@ -118,17 +114,17 @@ class Main(QMainWindow, QWidget):
         self.numCompasesCombo.setValue(2)
         self.numCompasesCombo.setRange(1, 20)
 
-        # READY #
+        # Ready
         self.btnReady = QPushButton("Ready", self)
         self.btnReady.setGeometry(140, 10, 100, 45)
         self.btnReady.clicked.connect(lambda: self.inputNotes())
 
         self.userNotification = QLabel(self)
-        self.userNotification.setText("Hay notas que no forman parte")
+        self.userNotification.setText("Some notes are not part")
         self.userNotification.setGeometry(310, 50, 200, 30)
         self.userNotification.hide()
         self.userNotificationTwo = QLabel(self)
-        self.userNotificationTwo.setText("de la escala")
+        self.userNotificationTwo.setText("of the scale")
         self.userNotificationTwo.setGeometry(310, 70, 200, 30)
         self.userNotificationTwo.hide()
 
@@ -149,17 +145,17 @@ class Main(QMainWindow, QWidget):
         yInitChecBox = 130
 
         self.notasLabel = QLabel(self)
-        self.notasLabel.setText("Notas fundamentales")
+        self.notasLabel.setText("Root notes")
         self.notasLabel.setGeometry(150, 70, 140, 30)
         self.notasLabel.show()
 
         self.notaLabel = QLabel(self)
-        self.notaLabel.setText("Nota")
+        self.notaLabel.setText("Note")
         self.notaLabel.setGeometry(150, 105, 50, 30)
         self.notaLabel.show()
 
         self.octavaLabel = QLabel(self)
-        self.octavaLabel.setText("Octava")
+        self.octavaLabel.setText("Octave")
         self.octavaLabel.setGeometry(225, 105, 100, 30)
         self.octavaLabel.show()
 
@@ -182,7 +178,6 @@ class Main(QMainWindow, QWidget):
             self.octavas.append(globals()[f"octave_{note}"])
             yInitChecBox += 30
 
-        # READY #
         self.btnCreate = QPushButton("Create", self)
         self.btnCreate.setGeometry(300, 10, 100, 45)
         self.btnCreate.clicked.connect(lambda: self.midiProcessing())
@@ -200,26 +195,30 @@ class Main(QMainWindow, QWidget):
         midiFile = MIDIFile(1)
         midiFile.addTempo(0, 0, self.bpm.value())
 
-        # CALCULATE NOTES NUMBER PER COMPAS
+        # Calculate note numbers per compas
         tiempo = 0
         duration = utilities.getDurationFromNotation(self.rateCombo.currentText())
-        # NUMERO DE NOTAS POR COMPAS
+
+        # Note numbers per bar
         intervalTimes = 4 / duration
 
-        # GET FULL MIDI SCALE
-        # GET LOWEST FUNDAMENTAL MIDI NOTE (C-1)
+        # Get full midi scale
+        # Get lowest root MIDI note (C-1)
         fundamentalMidi = utilities.getMidiFromNote(self.keyCombo.currentText() + "-1")
-        # CREAR ESCALA MAYOR O MENOR COMPLETA DE 0 A 127
+
+        # Create major or minor scale
         scale = utilities.createScaleArray(
             self.modoCombo.currentText(), fundamentalMidi
         )
-        # GET SUM FOR UP OR DOWN
+
+        # Get sum for up or down
         distance *= utilities.getDistanciaSign(self.orderCombo.currentText())
 
-        # FLAG FOR MIDI FILE
+        # Flag for midi file
         midiFileIsDone = False
         inicio = 0
-        # GENERATE MIDI DATA
+
+        # Generate MIDI data
         for i in range(int(self.numNotasCombo.value())):
             nota = self.notasEnMidi[i]
 
@@ -227,7 +226,7 @@ class Main(QMainWindow, QWidget):
                 inicio = scale.index(nota)
                 midiFileIsDone = True
             except:
-                print("Hay notas que no forman parte de la escala")
+                print("Some notes are not part of the scale")
                 self.userNotification.show()
                 self.userNotificationTwo.show()
                 midiFileIsDone = False
@@ -257,7 +256,7 @@ class Main(QMainWindow, QWidget):
                 midiFile.writeFile(myOutputMIDIClip)
 
             print("-------------------")
-            print("Archivo MIDI generado")
+            print("MIDI file generated")
             print("-------------------")
 
 
