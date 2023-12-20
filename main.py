@@ -260,10 +260,6 @@ class Main(QMainWindow, QWidget):
             print("Archivo MIDI generado")
             print("-------------------")
 
-            pm = PrettyMIDI("Midis/Arp.mid")
-            plotter = Plotter()
-            plotter.show(pm, "/tmp/example-01.html")
-
 
 app = QApplication(sys.argv)
 demo = Main()
