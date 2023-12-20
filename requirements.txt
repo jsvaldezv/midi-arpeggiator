@@ -2,3 +2,4 @@ PyQt5==5.*
 visual_midi==1.*
 MIDIUtil==1.*
 pretty_midi==0.*
+black==23.*
