@@ -22,7 +22,7 @@ source venv/bin/activate
 (venv) python main.py
 ```
 
-## Recomendations
+## Recommendations
 
 ### 1. Run black to format your files with Python coding standards
 ```bash
