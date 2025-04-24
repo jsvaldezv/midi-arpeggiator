@@ -2,7 +2,7 @@
 
 <img width="500" alt="Screen Shot 2022-06-14 at 1 12 05 a m" src="https://user-images.githubusercontent.com/47612276/173505945-e2b38ee5-66c1-43cf-99b5-c4ba46c0cde9.png">
 
-This project is a MIDI arpeggiator built with Python, inspired by the functionality of Ableton Live's arpeggiator. It allows users to input MIDI notes and automatically generates arpeggiated patterns in real time.
+This project is a MIDI arpeggiator built with Python, inspired by the functionality of Ableton Live's arpeggiator. It allows users to input MIDI notes and automatically generates arpeggiated patterns.
 
 🎹 Key Features:
 
